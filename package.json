@@ -1,0 +1,22 @@
+{
+  "name": "ecommerce-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently -r \"npm:dev:*\"",
+    "dev:backend": "npm --workspace backend run dev",
+    "dev:frontend": "npm --workspace frontend run dev",
+    "start": "npm --workspace backend run start",
+    "build": "npm --workspace frontend run build",
+    "migrate": "npm --workspace backend run migrate",
+    "seed": "npm --workspace backend run seed",
+    "test": "npm --workspace backend run test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
