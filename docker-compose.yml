@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:15
+    container_name: ecommerce_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ecommerce
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    command: npm run dev
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/ecommerce
+      JWT_SECRET: changeme
+      STRIPE_KEY: sk_test_xxx
+      STRIPE_WEBHOOK_SECRET: whsec_xxx
+      PAYPAL_CLIENT_ID: your_paypal_client_id
+      PAYPAL_SECRET: your_paypal_secret
+      FRONTEND_ORIGIN: http://localhost:5173
+      PORT: 4000
+    depends_on:
+      - db
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  db_data:
